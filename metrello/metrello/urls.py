@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
+from django.conf import settings
+
 from common.views import SwaggerSchemaView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
@@ -26,4 +29,5 @@ urlpatterns = [
     path('auth/refresh_token/', refresh_jwt_token),
     path('auth/verify_jwt_token/', verify_jwt_token),
     path('', TemplateView.as_view(template_name='index.html')),
+    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
 ]
