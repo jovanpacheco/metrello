@@ -64,18 +64,20 @@ class Item(BaseModel):
     title = models.CharField(max_length=140)
     list = models.ForeignKey(List,
     						 on_delete=models.CASCADE)
+    note = models.TextField()
+    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICE)  
+      
     due_date = models.DateField(blank=True, null=True)
     completed = models.BooleanField(default=False)
     completed_date = models.DateField(blank=True, null=True)
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
                                     related_name='todo_assigned_to',
                                     on_delete=models.CASCADE)
-    note = models.TextField()
-    priority = models.PositiveIntegerField(choices=PRIORITY_CHOICE)
+
     active = models.BooleanField(default=True)
     uuid = models.UUIDField(db_index=True,
         					default=uuid_lib.uuid4,
-        					editable=False)
+                            editable=settings.DEBUG)
 
     def overdue_status(self):
         "Returns whether the item's due date has passed or not."
@@ -97,11 +99,11 @@ class Item(BaseModel):
         return self.title
 
     # Auto-set the item creation / completed date
-    def save(self):
+    def save(self, *args, **kwargs):
         # If Item is being marked complete, set the completed_date
         if self.completed:
             self.completed_date = datetime.datetime.now()
-        super(Item, self).save()
+        super(Item, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ["priority"]
