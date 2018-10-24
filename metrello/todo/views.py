@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView,\
@@ -8,7 +8,6 @@ from rest_framework.views import APIView
 from .permissions import IsAuthor, IsAuthorOrAdmin
 from .serializers import ListSerializer, ItemSerializer, ItemCompletedSerializer
 from .models import List, Item
-User = get_user_model()
 
 
 class AllListViewSet(CreateAPIView, ListAPIView):
@@ -46,7 +45,8 @@ class ItemMixin(object):
 
     serializer_class = ItemSerializer
     lookup_field = 'uuid'
-    
+    lookup_url_kwarg = 'uuid'
+
     def get_queryset(self):
         if self.request.user.is_staff:
             return Item.objects.all()
@@ -74,3 +74,21 @@ class ObjectItemViewSet(ItemMixin, RetrieveAPIView, UpdateAPIView, DestroyAPIVie
 class CompletedItemViewSet(ItemMixin, UpdateAPIView):
 
     serializer_class = ItemCompletedSerializer
+
+
+class AllItemForListViewSet(ItemMixin, ListAPIView):
+
+
+    def get_queryset(self):
+        """
+        El administrador puede ver todo
+        Cualquier usuario ve sus tareas o las que les 
+        fueron asignadas
+        """
+        if self.request.user.is_staff:
+            lista = get_object_or_404(List,
+                                      uuid=self.kwargs[self.lookup_url_kwarg])
+            return lista.item_set.all()
+        else:
+            return Item.objects.filter(Q(author=self.request.user) |
+                                       Q(assigned_to=self.request.user))
