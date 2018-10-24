@@ -10,13 +10,15 @@
 </head>
 <body class="{% block class_body %}{% endblock class_body %}">
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  
+
     <header class="masthead mb-auto">
       <div class="inner">
         <h3 class="masthead-brand">Metrello</h3>
         <nav class="nav nav-masthead justify-content-center">
-          <a class="nav-link active" href="#">Inicio</a>
-          <a class="nav-link" href="#">Ingresar</a>
+          {% block links_top %}
+          <a class="nav-link active" href="{% url 'inicio' %}">Inicio</a>
+          <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+          {% endblock links_top %}
         </nav>
       </div>
     </header>
