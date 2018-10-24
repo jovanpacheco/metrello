@@ -6,7 +6,7 @@ from rest_framework.generics import RetrieveAPIView, UpdateAPIView,\
 from rest_framework.views import APIView
 
 from .permissions import IsAuthor, IsAuthorOrAdmin
-from .serializers import ListSerializer, ItemSerializer
+from .serializers import ListSerializer, ItemSerializer, ItemCompletedSerializer
 from .models import List, Item
 User = get_user_model()
 
@@ -42,11 +42,11 @@ class ObjectListViewSet(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
             return List.objects.filter(author=self.request.user)
 
 
-class AllItemViewSet(CreateAPIView, ListAPIView):
+class ItemMixin(object):
 
-    permission_classes = (IsAuthenticated, )
     serializer_class = ItemSerializer
-
+    lookup_field = 'uuid'
+    
     def get_queryset(self):
         if self.request.user.is_staff:
             return Item.objects.all()
@@ -54,9 +54,13 @@ class AllItemViewSet(CreateAPIView, ListAPIView):
             return Item.objects.filter(author=self.request.user)
 
 
-class ObjectItemViewSet(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
-    serializer_class = ItemSerializer
-    lookup_field = 'uuid'
+class AllItemViewSet(ItemMixin, CreateAPIView, ListAPIView):
+
+    permission_classes = (IsAuthenticated,)
+
+
+
+class ObjectItemViewSet(ItemMixin, RetrieveAPIView, UpdateAPIView, DestroyAPIView):
 
     def get_permissions(self):
         method = self.request.method.lower()
@@ -66,8 +70,7 @@ class ObjectItemViewSet(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
         else:
             return [IsAuthor()]
 
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Item.objects.all()
-        else:
-            return Item.objects.filter(author=self.request.user)
+
+class CompletedItemViewSet(ItemMixin, UpdateAPIView):
+
+    serializer_class = ItemCompletedSerializer

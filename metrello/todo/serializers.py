@@ -42,3 +42,12 @@ class ItemSerializer(serializers.HyperlinkedModelSerializer):
             'list': {'lookup_field': 'uuid'},
             'assigned_to' : {'required':False}
         }
+
+
+
+class ItemCompletedSerializer(serializers.Serializer):
+
+    def update(self, instance, validated_data):
+        instance.completed = True  
+        instance.save()
+        return instance
