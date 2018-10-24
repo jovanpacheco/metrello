@@ -5,7 +5,7 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 from common.models import BaseModel
-from datetime import datetime
+import datetime
 
 
 PRIORITY_CHOICE = (
