@@ -34,7 +34,7 @@ class SwaggerSchemaView(APIView):
 
     def get(self, request):
         generator = MySchemaGenerator(
-            title="Perfil API",
+            title="Metrello API",
             # url=url,
             # patterns=patterns,
             # urlconf=urlconf

@@ -20,13 +20,16 @@ from django.views.generic.base import RedirectView
 from django.conf import settings
 
 from users.urls import router as router_user, urlpatterns as urlpatterns_user
+from todo.urls import urlpatterns as urlpatterns_todo
 from common.views import SwaggerSchemaView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),    
     path('api/', include(router_user.urls)),
+    #path('api/', include(router_todo.urls)),    
     path('api/', include(urlpatterns_user)),
+    path('api/', include(urlpatterns_todo)),    
     path('api/docs', SwaggerSchemaView.as_view()),
     path('auth/obtain_token/', obtain_jwt_token),
     path('auth/refresh_token/', refresh_jwt_token),
