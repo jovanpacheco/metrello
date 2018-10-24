@@ -25,7 +25,7 @@ class List(BaseModel):
     active = models.BooleanField(default=True)
     uuid = models.UUIDField(db_index=True,
         					default=uuid_lib.uuid4,
-					        editable=False)
+					        editable=settings.DEBUG)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

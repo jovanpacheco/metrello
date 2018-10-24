@@ -8,3 +8,17 @@ class IsAuthor(BasePermission):
     def has_object_permission(self, request, view, obj):
     	
         return obj.author == request.user
+
+
+class IsAuthorOrAdmin(BasePermission):
+    """
+    Permiso si es el autor o un administrador
+    """
+
+    def has_object_permission(self, request, view, obj):
+    	
+        admin = request.user and request.user.is_staff
+        if admin:
+            return True
+
+        return obj.author == request.user        
