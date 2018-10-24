@@ -2,6 +2,8 @@ from random import random
 from django.contrib.auth import get_user_model, password_validation, authenticate
 from django.utils import timezone
 from django.core import exceptions
+from django.contrib.auth.forms import SetPasswordForm
+
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_framework.fields import SerializerMethodField
@@ -83,3 +85,42 @@ class CreateUserSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    password = serializers.CharField()
+    password1 = serializers.CharField()
+
+    def validate(self, attrs):
+        password = attrs.get('password')
+        password1 = attrs.get('password1')
+        errors = dict()
+
+        if password is None:
+            errors['password'] = _('password is required.')
+
+        if password1 is None:
+            errors['password1'] = _('password1 is required.')
+
+        form_data = {
+            'new_password1': password,
+            'new_password2': password1,
+        }
+        user = self.context['request'].user
+        if user:
+            form = SetPasswordForm(user, data=form_data)
+
+            if form.errors:
+                errors.update(form.errors)
+            attrs['form'] = form
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super(PasswordResetSerializer, self).validate(attrs)
+
+    def create(self, validated_data):
+        form = validated_data.get('form')
+        form.save()
+        return validated_data
+

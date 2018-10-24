@@ -3,14 +3,14 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView, CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import UserSerializer, CreateUserSerializer
+from .serializers import UserSerializer, CreateUserSerializer,PasswordResetSerializer
 
 User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    This endpoint presents the User 
+        Api de usuario
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -29,7 +29,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class UserView(RetrieveAPIView, UpdateAPIView):
     """
-    This endpoint presents the User 
+        Usuario en sesion
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -38,3 +38,12 @@ class UserView(RetrieveAPIView, UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class PasswordReset(CreateAPIView):
+    """
+    post:
+        Cambio de clave
+
+    """
+    serializer_class = PasswordResetSerializer
