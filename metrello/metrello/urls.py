@@ -19,15 +19,18 @@ from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.conf import settings
 
+from users.urls import router as router_user, urlpatterns as urlpatterns_user
 from common.views import SwaggerSchemaView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),    
+    path('api/', include(router_user.urls)),
+    path('api/', include(urlpatterns_user)),
     path('api/docs', SwaggerSchemaView.as_view()),
     path('auth/obtain_token/', obtain_jwt_token),
     path('auth/refresh_token/', refresh_jwt_token),
     path('auth/verify_jwt_token/', verify_jwt_token),
-    path('', TemplateView.as_view(template_name='index.html')),
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
+    path('', TemplateView.as_view(template_name='index.html')),
 ]
