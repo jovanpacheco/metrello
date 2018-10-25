@@ -19,7 +19,7 @@ cover-container-large
 
 {% block content %}
 <p class="lead" style="text-align: center;">
-  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal_lista" data-whatever="@fat">+</a>
+  <a href="#" class="btn btn-primary" id="open_modal_lista">+</a>
 </p>
 
 
@@ -58,6 +58,8 @@ cover-container-large
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary" data-action-name="add_list">Guardar</button>
+        <button type="button" class="btn btn-primary hide" id="btn_list_update" data-action-name="update_list_click">Actualizar </button>
+        
       </div>
     </div>
   </div>
