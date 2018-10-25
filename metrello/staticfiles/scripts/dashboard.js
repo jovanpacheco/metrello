@@ -30,7 +30,7 @@ usuario_conectado(function(){
 				data-action-name="delete" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>
-				<button type="button" class="close"
+				<button type="button" class="close item_plus"
 				data-action-name="add_item" aria-label="Add" data-action-id="${ 'uuid' }"> 
 				<span aria-hidden="true">&plus;</span>
 				</button>						
@@ -75,7 +75,10 @@ usuario_conectado(function(){
 				// abrir modal crear lista
 				$('#open_modal_lista').on("click",function(event) {
 				    $('#modal_lista').find('[data-action-name="add_list"]').removeClass('hide');
-				    $("#btn_list_update").addClass('hide');					
+				    $("#btn_list_update").addClass('hide');	
+				    HDD.unset('lista_seleccionada');
+				    $("#lista_label_titulo").text('Crear lista');
+				    $("#lista_titulo").val("");				    				
 					$('#modal_lista').modal('toggle');
 				});
 
