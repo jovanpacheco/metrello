@@ -19,7 +19,7 @@ cover-container-large
 
 {% block content %}
 <p class="lead" style="text-align: center;">
-  <a href="#" class="btn btn-primary">+</a>
+  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal_lista" data-whatever="@fat">+</a>
 </p>
 
 
@@ -27,26 +27,45 @@ cover-container-large
 </div>
 
 
-<div class="modal" tabindex="-1" role="dialog">
+
+<div class="modal fade" id="modal_lista" tabindex="-1" role="dialog" aria-labelledby="lista_label_titulo" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title" id="lista_label_titulo">Nueva lista</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Titulo</label>
+            <input type="text" class="form-control" id="lista_titulo">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Prioridad</label>
+            <select id="lista_priority" class="form-control">
+              <option value="1">Alta</option>
+              <option value="2">Media</option>
+              <option value="3">Normal</option>
+              <option value="4">Baja</option>
+            </select>
+          </div>          
+
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-action-name="add_list">Guardar</button>
       </div>
     </div>
   </div>
 </div>
-
+<!--           <div class="form-group">
+            <label for="message-text" class="col-form-label">Nota:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div> -->
 
 {% endblock content %}{% block extra_js %}
 <script src="{% static 'scripts/dashboard.js' %}"></script>

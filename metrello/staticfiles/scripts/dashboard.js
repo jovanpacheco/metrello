@@ -71,9 +71,39 @@ usuario_conectado(function(){
 				});
 
 
-			}
+				$('[data-action-name="add_list"]').on("click",function(event) {
+					event.preventDefault();
+				    event.stopPropagation();
+
+				    $.ajax({
+				        type: 'POST',
+				        url:  '/api/v1/list/', 
+				        data: {
+						  "name": $("#lista_titulo").val(),
+						  "priority": $("#lista_priority option:selected").val()
+				        },				        
+				        beforeSend: function (xhr) {
+				            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+				        },
+				        complete: function (Req, textStatus)
+				        {
+				        	if(Req.status == 201)
+							{
+				        		_exito_redirect('Lista creada','/dashboard/');
+				        	}
+				        	else
+				        	{
+				        		_error('Ocurrio un error');
+				        	}
+				        }
+				      });
+
+				});
+
+
+			}// fin 200
 
         },//fin complete
     });
 
-})
+});

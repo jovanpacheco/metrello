@@ -11,7 +11,9 @@
 .lista > .titulo {
 	color: #007bff;
 }
-
+.modal{
+	color: #000;
+}
 .close{
 	color: red;
 	opacity: .75;
