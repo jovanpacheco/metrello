@@ -105,32 +105,30 @@ function _exito_redirect(mensaje,dire) {
 		confirmButtonColor: "#23C6C8",
 		confirmButtonText: "Cerrar",
 		closeOnConfirm: false
-	}, function () {
+	}).then(function() {
 		location.href = dire;
 	});
 };
 
 function _confirma(mensaje,si,no) {
-    swal({
-        title: "Informacion",
-        text: mensaje,
-        type: "success",
-        showCancelButton: true,
-        confirmButtonColor: '#E60026',
-        confirmButtonText: 'Si!',
-        confirmButtonColor: '#0070B8',
-        cancelButtonText: "No!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    },
-    function(isConfirm) {
 
-        if (isConfirm) {
-        	si();
-        } else {
-           	no();
-        }
-    });
+  swal({
+      title: "Informacion",
+      text: mensaje,
+      icon: "warning",
+      buttons: [
+        'No',
+        'Si'
+      ],
+      dangerMode: true,
+    }).then(function(isConfirm) {
+      if (isConfirm) {
+        si()
+      } else {
+        no()
+      }
+    })
+
 }
 
 
