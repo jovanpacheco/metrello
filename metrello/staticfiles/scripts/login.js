@@ -9,13 +9,29 @@ $("#btn_login").on("click",function(){
         complete: function (Req, textStatus)
         {
 			
-			alert(Req.status);
         	try{
 				var res = JSON.parse(Req.responseText);            	
         	}catch(err){
 				console.log('Respuesta no es json u otro : ' + err);
 				console.log(Req.responseText)
-				return false;
+			}
+
+			if(Req.status == 500)
+			{
+				_info('Error en el servidor, contacte a soporte');
+				return;
+			}
+
+			if(Req.status == 400)
+			{
+				_info('No se puede iniciar sesion con los datos proporcionados');
+				return;
+			}
+
+			if(Req.status == 200)
+			{
+				HDD.set('jwt',res.token);
+				setTimeout(function(){ location.href = '/dashboard/'; }, 50);
 			}
 
         },//fin complete
