@@ -86,7 +86,7 @@ function _error_redirect(mensaje,redirect,titulo='Error') {
 
 function _exito(mensaje) {
 	swal({
-	title: "Informacion",
+	title: "Información",
 		text: mensaje,
 		type: "success",
 		showCancelButton: false,
@@ -98,7 +98,7 @@ function _exito(mensaje) {
 
 function _exito_redirect(mensaje,dire) {
 	swal({
-	title: "Informacion",
+	title: "Información",
 		text: mensaje,
 		type: "success",
 		showCancelButton: false,
@@ -113,7 +113,7 @@ function _exito_redirect(mensaje,dire) {
 function _confirma(mensaje,si,no) {
 
   swal({
-      title: "Informacion",
+      title: "Información",
       text: mensaje,
       icon: "warning",
       buttons: [

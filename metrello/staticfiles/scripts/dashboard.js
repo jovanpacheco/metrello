@@ -31,7 +31,7 @@ usuario_conectado(function(){
 				<span aria-hidden="true">&times;</span>
 				</button>
 				<button type="button" class="close"
-				data-action-name="add" aria-label="Close">
+				data-action-name="add_item" aria-label="Add" data-action-id="${ 'uuid' }"> 
 				<span aria-hidden="true">&plus;</span>
 				</button>						
 			    <p class="titulo">${ 'name' }</p>
@@ -42,6 +42,7 @@ usuario_conectado(function(){
 					$("#listas").append(lista_template( res[i] ));
 				}
 
+				//eliminar listas
 				$('[data-action-name="delete"]').on("click",function(event) {
 					event.preventDefault();
 				    event.stopPropagation();
@@ -70,7 +71,7 @@ usuario_conectado(function(){
 
 				});
 
-
+				// crear listas
 				$('[data-action-name="add_list"]').on("click",function(event) {
 					event.preventDefault();
 				    event.stopPropagation();
@@ -97,11 +98,47 @@ usuario_conectado(function(){
 				        	}
 				        }
 				      });
-
 				});
 
 
-			}// fin 200
+				// crear tareas para una lista boton
+				$('[data-action-name="add_item"]').on("click",function(event) {
+					event.preventDefault();
+				    event.stopPropagation();
+				    HDD.set('lista_seleccionada',$(event.target).attr('data-action-id'))
+				    $('#modal_item').modal('toggle');
+				});
+
+				// crear tareas para una lista accion
+				$('[data-action-name="add_item_click"]').on("click",function(event) {
+				    $.ajax({
+				        type: 'POST',
+				        url:  '/api/v1/item/', 
+				        data: {
+						  "title": $("#item_titulo").val(),
+						  "priority": $("#item_priority option:selected").val(),
+						  "uuid_list": HDD.get('lista_seleccionada'),
+						  "note":$("#nota").val()
+						  //"due_date": "string",
+				        },				        
+				        beforeSend: function (xhr) {
+				            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+				        },
+				        complete: function (Req, textStatus)
+				        {
+				        	if(Req.status == 201)
+							{
+				        		_exito_redirect('tarea creada','/dashboard/');
+				        	}
+				        	else
+				        	{
+				        		_error('Ocurrio un error');
+				        	}
+				        }
+				      });
+				});
+
+			}// fin 200 principal
 
         },//fin complete
     });
