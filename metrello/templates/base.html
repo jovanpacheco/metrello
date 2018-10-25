@@ -23,12 +23,18 @@
       </div>
     </header>
     
-    {% block content %} {% endblock content %}
-    {% include "footer.html" %}
+    {% block content %}{% endblock content %}
+    {% block footer %}{% include "footer.html" %}{% endblock footer %} 
   
   </div>
   <div class="loading" id="loader"></div>
+
   {% include "js.html" %}
   {% block extra_js %}{% endblock extra_js %}
+  <script type="text/javascript">
+  $(document).ready(function () {
+    $("#loader").removeClass('loading');
+  })
+  </script>
 </body>
 </html>

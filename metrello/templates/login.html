@@ -1,94 +1,87 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Metrello - Todo {% endblock title %}
-
-
 {% block links_top %}
 <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
 <a class="nav-link active" href="{% url 'login' %}">Ingresar</a>
 {% endblock links_top %}
 
-
 {% block content %}
 <div class="row justify-content-center mt-3">
 <!-- Nav tabs -->
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#login">Login</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#registro">Registro</a>
-  </li>
-</ul>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#registro">Registro</a>
+    </li>
+  </ul>
 <!-- Tab panes -->
 </div>
 
-<div class="row justify-content-center mt-2"  style="width: 45em !important;">
-
-    <div class="tab-content col-md-6">
-
-      <div class="tab-pane active" id="login">
-        <div class="card">
-          <div class="card-header">
-            Ingresar al sistema
-          </div>
-          <div class="card-body">
-              <div class="form-group">
-                <label for="username">Nombre de usuario</label>
-                <input type="text" class="form-control" name="username" v-model="form_login.username" placeholder="Username" />
-              </div>      
-              <div class="form-group">
-                <label for="password">Clave</label>
-                <input type="password" class="form-control" name="password" v-model="form_login.password" placeholder="Password" />
-              </div> 
-            
-              <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
-          </div>
+<div class="row justify-content-center mt-2">
+  <div class="tab-content col-md-7 col-xs-7 col-sd-7">
+    <div class="tab-pane active" id="login">
+      <div class="card">
+        <div class="card-header">
+          Ingresar al sistema
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="username">Nombre de usuario</label>
+            <input type="text" class="form-control" name="username" placeholder="Username" />
+          </div>      
+          <div class="form-group">
+            <label for="password">Clave</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" />
+          </div> 
+          <button type="button" class="btn btn-primary">Login</button>
         </div>
       </div>
-
-      <div class="tab-pane fade justify-content-center" id="registro">
-        <div class="card">
-          <div class="card-header">
-            Registro de usuario
-          </div>
-          <div class="card-body">
-              <div class="form-group">
-                <label for="first_name">Nombre</label>
-                <input type="text" class="form-control" name="first_name" v-model="form_registro.first_name" placeholder="Nombre" />
-              </div>      
-              <div class="form-group">
-                <label for="last_name">Apellido</label>
-                <input type="text" class="form-control" name="last_name" v-model="form_registro.last_name" placeholder="Apellido" />
-              </div> 
-              <div class="form-group">
-                <label for="email">Correo electronico</label>
-                <input type="text" class="form-control" name="email" v-model="form_registro.email" placeholder="Correo electronico" />
-              </div> 
-              <div class="form-group">
-                <label for="password">Clave</label>
-                <input type="password" class="form-control" name="password" v-model="form_registro.password" placeholder="Password" />
-              </div>           
-              <div class="form-group">
-                <label for="password1">Verificar clave</label>
-                <input type="password" class="form-control" name="password1" v-model="form_registro.password1" placeholder="Password" />
-              </div>                                  
-              <button type="button" class="btn btn-primary" v-on:click="registro()">Registrarme</button>
-          </div>
-        </div>
-      </div>
-
     </div>
-     
+
+    <div class="tab-pane fade justify-content-center" id="registro">
+      <div class="card">
+        <div class="card-header">
+          Registro de usuario
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="first_name">Nombre</label>
+            <input type="text" class="form-control" name="first_name" placeholder="Nombre" />
+          </div>      
+          <div class="form-group">
+            <label for="last_name">Apellido</label>
+            <input type="text" class="form-control" name="last_name" placeholder="Apellido" />
+          </div> 
+          <div class="form-group">
+            <label for="email">Correo electronico</label>
+            <input type="text" class="form-control" name="email" placeholder="Correo electronico" />
+          </div> 
+          <div class="form-group">
+            <label for="password">Clave</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" />
+          </div>           
+          <div class="form-group">
+            <label for="password1">Verificar clave</label>
+            <input type="password" class="form-control" name="password1" placeholder="Password" />
+          </div>                                  
+          <button type="button" class="btn btn-primary">Registrarme</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-
 {% endblock content %}
-
-
+{% block footer %}
+<footer class="mastfoot mt-auto" style=" text-align:center;">
+  <div class="inner">
+    <p>Copyright Jovan Pacheco &copy; 2018-2019.</p>
+  </div>
+</footer>
+{% endblock %}
 {% block extra_js %}
-<script type="text/javascript">
-$(document).ready(function () {
-	$("#loader").removeClass('loading');
-})
-</script>
+<script src="{% static 'scripts/login.js' %}"></script>
 {% endblock extra_js %}
