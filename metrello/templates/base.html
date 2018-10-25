@@ -9,7 +9,7 @@
   <link rel="icon" type="image/ico" href="{% static 'favicon.ico' %}"/>
 </head>
 <body class="{% block class_body %}{% endblock class_body %}">
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <div class="{% block class_cover %}cover-container{% endblock class_cover %} d-flex w-100 h-100 p-3 mx-auto flex-column">
 
     <header class="masthead mb-auto">
       <div class="inner">

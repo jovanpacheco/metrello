@@ -41,7 +41,9 @@ body {
 .cover-container {
   max-width: 42em;
 }
-
+.cover-container-large {
+  max-width: 60em;
+}
 
 /*
  * Header

@@ -8,10 +8,14 @@ from .models import List, Item
 class ListSerializer(serializers.ModelSerializer):
 
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    nro_tareas = serializers.SerializerMethodField()
+
+    def get_nro_tareas(self, obj):
+        return obj.item_set.all().count()
 
     class Meta:
         model = List
-        fields = ('uuid', 'name','priority','active','author')
+        fields = ('uuid', 'name','priority','active','author','get_priority','nro_tareas')
 
 
 class ItemSerializer(serializers.HyperlinkedModelSerializer):

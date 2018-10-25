@@ -1,7 +1,7 @@
-usuario_conectado(function(){
+/*usuario_conectado(function(){
 	location.href = '/dashboard/'
 },
-false);
+false);*/
 
 $("#btn_login").on("click",function(){
     $.ajax({

@@ -43,6 +43,9 @@ function token_invalido() {
     cerrar_session(true);
 };
 
+$("#salir").on('click',function(){
+    cerrar_session(true);
+})
 
 
 //* alertas *//
@@ -131,9 +134,37 @@ function _confirma(mensaje,si,no) {
 }
 
 
-
-function usuario_conectado(fun) {
+function usuario_conectado(fun, redirect=true) {
     $("#loader").addClass('loading');
+    
+    if (HDD.get('jwt') == null)
+    {
+        cerrar_session(redirect);
+        return;
+    }
+
+    if (HDD.get('username') == null)
+    {
+        $.ajax({
+        type: 'GET',
+        url:  '/api/user',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+        },        
+        complete: function (Req, textStatus)
+        {
+            var res = JSON.parse(Req.responseText);
+            HDD.set('username',res.username);
+            $("#text_username").text(HDD.get('username'));
+        },//fin complete
+        });
+    }
+    else
+    {
+        $("#text_username").text(HDD.get('username'));
+    }
+
+
     $.ajax({
         type: 'POST',
         url:  '/auth/verify_jwt_token/',
@@ -144,7 +175,7 @@ function usuario_conectado(fun) {
         {
             if(Req.status != 200)
             {
-                cerrar_session(true);
+                cerrar_session(redirect);
             }
             else
             {
@@ -154,3 +185,18 @@ function usuario_conectado(fun) {
         },//fin complete
     });
 }
+
+
+
+
+function templater ( strings, ...keys ) {
+  return function( data ) {
+      let temp = strings.slice();
+
+      keys.forEach( ( key, i ) => {
+          temp[ i ] = temp[ i ] + data[ key ];
+      } );
+
+      return temp.join( '' );
+  }
+};
