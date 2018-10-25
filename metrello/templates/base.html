@@ -6,7 +6,7 @@
   <title>{% block title %}{% endblock title %}</title>
   {% include "head.html" %}
   {% block extra_head %}{% endblock extra_head %}
-  <link rel="icon" type="image/ico" href="/static/favicon.ico" />
+  <link rel="icon" type="image/ico" href="{% static 'favicon.ico' %}"/>
 </head>
 <body class="{% block class_body %}{% endblock class_body %}">
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -31,10 +31,5 @@
 
   {% include "js.html" %}
   {% block extra_js %}{% endblock extra_js %}
-  <script type="text/javascript">
-  $(document).ready(function () {
-    $("#loader").removeClass('loading');
-  })
-  </script>
 </body>
 </html>

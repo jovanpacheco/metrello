@@ -83,6 +83,11 @@
 </footer>
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/sweetalert.min.js' %}"></script>
-<script src="{% static 'scripts/login.js' %}"></script>
+  <script src="{% static 'js/sweetalert.min.js' %}"></script>
+  <script src="{% static 'scripts/login.js' %}"></script>
+  <script type="text/javascript">
+  $(document).ready(function () {
+    $("#loader").removeClass('loading');
+  })
+  </script>
 {% endblock extra_js %}

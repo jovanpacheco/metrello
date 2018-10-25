@@ -34,7 +34,7 @@ function cerrar_session(redirect=true) {
 	HDD.unset('jwt');
 	if (redirect)
 	{
-		setTimeout(function(){ location.href = '/login'; }, 200);
+		setTimeout(function(){ location.href = '/login'; }, 40);
 	}
 };
 
@@ -127,5 +127,30 @@ function _confirma(mensaje,si,no) {
         } else {
            	no();
         }
+    });
+}
+
+
+
+function usuario_conectado(fun) {
+    $("#loader").addClass('loading');
+    $.ajax({
+        type: 'POST',
+        url:  '/auth/verify_jwt_token/',
+        data: {
+          "token": HDD.get('jwt'),
+        },
+        complete: function (Req, textStatus)
+        {
+            if(Req.status != 200)
+            {
+                cerrar_session(true);
+            }
+            else
+            {
+                $("#loader").removeClass('loading');
+                fun();
+            }
+        },//fin complete
     });
 }
