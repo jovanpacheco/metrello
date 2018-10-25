@@ -15,26 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
 from django.conf import settings
 
 from users.urls import router as router_user, urlpatterns as urlpatterns_user
 from todo.urls import urlpatterns as urlpatterns_todo
+from .templates_urls import urlpatterns as urlpatterns_templates
 from common.views import SwaggerSchemaView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),    
     path('api/', include(router_user.urls)),
-    #path('api/', include(router_todo.urls)),    
     path('api/', include(urlpatterns_user)),
     path('api/', include(urlpatterns_todo)),    
     path('api/docs', SwaggerSchemaView.as_view()),
     path('auth/obtain_token/', obtain_jwt_token),
     path('auth/refresh_token/', refresh_jwt_token),
     path('auth/verify_jwt_token/', verify_jwt_token),
-    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
-    path('login', TemplateView.as_view(template_name='login.html'), name="login"),
-    path('', TemplateView.as_view(template_name='index.html'), name="inicio"),
+    
+    path('', include(urlpatterns_templates)),   
 ]

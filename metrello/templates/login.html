@@ -3,7 +3,7 @@
 {% block title %} Metrello - Todo {% endblock title %}
 {% block links_top %}
 <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
-<a class="nav-link active" href="{% url 'login' %}">Ingresar</a>
+<a class="nav-link active" href="#">Ingresar</a>
 {% endblock links_top %}
 
 {% block content %}
@@ -30,13 +30,13 @@
         <div class="card-body">
           <div class="form-group">
             <label for="username">Nombre de usuario</label>
-            <input type="text" class="form-control" name="username" placeholder="Username" />
+            <input type="text" class="form-control" id="username" placeholder="Username" />
           </div>      
           <div class="form-group">
             <label for="password">Clave</label>
-            <input type="password" class="form-control" name="password" placeholder="Password" />
+            <input type="password" class="form-control" id="password" placeholder="Password" />
           </div> 
-          <button type="button" class="btn btn-primary">Login</button>
+          <button type="button" class="btn btn-primary" id="btn_login">Login</button>
         </div>
       </div>
     </div>
@@ -83,5 +83,6 @@
 </footer>
 {% endblock %}
 {% block extra_js %}
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
 <script src="{% static 'scripts/login.js' %}"></script>
 {% endblock extra_js %}
