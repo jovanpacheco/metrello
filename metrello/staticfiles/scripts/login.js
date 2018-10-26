@@ -45,6 +45,17 @@ $("#btn_login").on("click",function(){
 
 
 $("#btn_registro").on("click",function(){
+
+	if($("#first_name").val() != "" && $("#email").val() != ""
+		&& $("#last_name").val() !== "" && $("#password1").val())
+	{
+
+	if($("#password1").val() != $("#password2").val())
+	{
+		_info('Las claves no coinciden');
+
+	}
+
     $.ajax({
         type: 'POST',
         url:  '/api/users/',
@@ -85,4 +96,10 @@ $("#btn_registro").on("click",function(){
 
         },//fin complete
     });
-})
+	}
+	else
+	{
+		_info('Complete todos los datos');
+	}
+
+});

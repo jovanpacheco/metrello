@@ -8,10 +8,9 @@
 
 {% block title %} Dashboard - metrello {% endblock title %}
 {% block links_top %}
-<a class="nav-link" href="#" id="text_username">...</a>
 <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+<a class="nav-link" href="{% url 'perfil' %}" id="text_username">...</a>
 <a class="nav-link active" href="#">Dasboard</a>
-<a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
 <a class="nav-link" href="#" id="salir" >Salir</a>
 {% endblock links_top %}
 
