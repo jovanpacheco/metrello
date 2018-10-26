@@ -30,8 +30,18 @@ var HDD = {
 //* session *//
 
 function cerrar_session(redirect=true) {
-	HDD.unset('username');
-	HDD.unset('jwt');
+
+    HDD.unset('username');
+    HDD.unset('jwt');
+    
+    for (var i = 0; i < localStorage.length; i++) {
+        HDD.unset(localStorage.key(i)); 
+    }
+
+    for(var x = 0; x <= localStorage.length; x++) {
+        localStorage.removeItem(localStorage.key(x))
+    }
+
 	if (redirect)
 	{
 		setTimeout(function(){ location.href = '/login'; }, 40);
@@ -198,3 +208,9 @@ function templater ( strings, ...keys ) {
       return temp.join( '' );
   }
 };
+
+
+function extend(obj, src) {
+    Object.keys(src).forEach(function(key) { obj[key] = src[key]; });
+    return obj;
+}

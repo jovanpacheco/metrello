@@ -6,7 +6,7 @@ function main(Req, res) {
 	templater`<div class="lista col-md-4 col-xs-4 col-sd-4" data-action-id="${ 'uuid' }"> 
 	<button type="button" class="close"  
 	data-action-name="delete_list" aria-label="Close">
-	<span aria-hidden="true">&times;</span>
+	<i aria-hidden="true" class="fa fa-times"></i>
 	</button>
 	<button type="button" class="close item_plus"
 	data-action-name="add_item" aria-label="Add"> 
@@ -14,7 +14,7 @@ function main(Req, res) {
 	</button>	
 	<button type="button" class="close items"
 	data-action-name="items_for_list" aria-label="Tareas"> 
-	<i aria-hidden="true" class="fa fa-align-justify"></i>
+	<i aria-hidden="true" class="fa fa-list"></i>
 	</button>								
     <p class="titulo" data-action-name="update_list">${ 'name' }</p>
     <p>Prioridad: ${ 'get_priority' }
@@ -151,33 +151,68 @@ function main(Req, res) {
 		var uuid = $(event.target).parent().attr('data-action-id');
 	    $.ajax({
 	        type: 'GET',
-	        url:  '/api/v1/list/'+uuid+'/items ',   
+	        url:  '/api/v1/list/'+uuid+'/items',   
 	        beforeSend: function (xhr) {
 	            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
 	        },
 	        complete: function (Rq, textStatus)
 	        {
 				
-				var data_tareas = JSON.parse(Rq.responseText);            	
+				var data_tareas = JSON.parse(Rq.responseText);
 				if(Rq.status == 200)
 				{
+					if (data_tareas.length == 0)
+					{
+						_info("No tiene tareas para esta lista.")
+						return;
+					}
+
 					var tarea_template = 
 					templater`<li class="list-group-item justify-content-between align-items-center">
 			          <div class="d-flex justify-content-between">
-			          ${ 'title' }
-			          <span class="badge badge-primary badge-pill">14</span>
-			          <span class="badge badge-primary badge-pill">14</span>
-			          <span class="badge badge-primary badge-pill">14</span>
+			          <i>${ 'title' }</i>
+			          <span class="badge badge-${'color'} badge-pill">${ 'get_priority' }</span>
+			          <span class="badge badge-secondary badge-pill"><i class="fa fa-${'icono'}"></i></span>
 			          </div>
-			          <div>fdsfdsfsdfds fsd fdsf ds fdsf dsf gfhghgjhg jh</div>			         
+			          <div>${'note'}</div>			         
 			        </li>`;
 
 			        $("#lista_de_tareas").html("");
 			        $("#item_label_tareas").text("");
 					for (var i = 0; i < data_tareas.length; i++) {
+						var tipo_prioridad, icono ='';
+
+						if (data_tareas[i].priority == 1)
+						{
+							tipo_prioridad='danger'
+						}
+						if (data_tareas[i].priority == 2)
+						{
+							tipo_prioridad='warning'
+						}
+						if (data_tareas[i].priority == 3)
+						{
+							tipo_prioridad='primary'
+						}
+						if (data_tareas[i].priority == 4)
+						{
+							tipo_prioridad='info'
+						}	
+
+						if (data_tareas[i].completed)
+						{
+							icono = 'chevron-up';
+						}
+						else
+						{
+							icono = 'chevron-down';
+						}
+
 						$("#item_label_tareas").text(data_tareas[i].uuid_list);
-						$("#lista_de_tareas").append(tarea_template( data_tareas[i] ));
-						HDD.setJ(data_tareas[i].uuid,data_tareas[i]);
+						$("#lista_de_tareas").append(tarea_template(
+						extend(data_tareas[i], {color:tipo_prioridad,icono:icono})));
+
+						//HDD.setJ(data_tareas[i].uuid,data_tareas[i]);
 					}
 					$('#modal_tareas').modal('toggle');
 					return;
