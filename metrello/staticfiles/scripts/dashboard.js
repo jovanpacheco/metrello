@@ -172,10 +172,10 @@ function main(Req, res) {
 			          <div class="d-flex justify-content-between">
 			          <i>${ 'title' }</i>
 			          <span class="badge badge-${'color'} badge-pill">${ 'get_priority' }</span>
-			          <span class="badge badge-secondary badge-pill" title="${'t'}">
+			          <span onclick="completar_tarea('${ 'uuid' }')" class="badge badge-secondary badge-pill" title="${'t'}">
 			          	<i class="fa fa-${'icono'}"></i>
 			          </span>
-			          <span data-action-name="delete_item" onclick="borrar_tarea('${ 'uuid' }')" class="badge badge-dark badge-pill badge-delete">
+			          <span onclick="borrar_tarea('${ 'uuid' }')" class="badge badge-dark badge-pill badge-delete">
 			          <i class="fa fa-recycle"></i>
 			          </span>		          
 			          </div>
@@ -335,3 +335,17 @@ function borrar_tarea(uuid)
 
 }
 
+function completar_tarea(uuid)
+{
+	$.ajax({
+        type: 'PATCH',
+        url:  '/api/v1/item/'+uuid+'/competed/',   
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+        },
+        complete: function (Req, textStatus)
+        {
+        	_exito_redirect('Estado de tarea actualizada','/dashboard/')
+        }
+    });
+}
