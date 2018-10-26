@@ -85,10 +85,14 @@ class AllItemForListViewSet(ItemMixin, ListAPIView):
         Cualquier usuario ve sus tareas o las que les 
         fueron asignadas
         """
+        uuid = self.kwargs[self.lookup_url_kwarg]
         if self.request.user.is_staff:
             lista = get_object_or_404(List,
-                                      uuid=self.kwargs[self.lookup_url_kwarg])
-            return lista.item_set.all()
+                                      uuid=uuid)
+            qs = lista.item_set.all()
         else:
-            return Item.objects.filter(Q(author=self.request.user) |
-                                       Q(assigned_to=self.request.user))
+            qs = Item.objects.filter(list__uuid=uuid)
+            qs = qs.filter(Q(author=self.request.user)|
+                                     Q(assigned_to=self.request.user))
+
+        return qs
