@@ -53,6 +53,10 @@ class ItemSerializer(serializers.HyperlinkedModelSerializer):
 class ItemCompletedSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
-        instance.completed = True  
+        if instance.completed:
+            instance.completed = False
+            instance.completed_date = None
+        else:
+            instance.completed = True
         instance.save()
         return instance
