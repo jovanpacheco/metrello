@@ -16,7 +16,7 @@ function main(Req, res) {
 	data-action-name="items_for_list" aria-label="Tareas"> 
 	<i aria-hidden="true" class="fa fa-list"></i>
 	</button>								
-    <p class="titulo" data-action-name="update_list">${ 'name' }</p>
+    <p class="titulo" data-action-name="update_list" title="doble click para editar">${ 'name' }</p>
     <p>Prioridad: ${ 'get_priority' }
     <span style="float: right;">Tareas: ${ 'nro_tareas' }</span></p>
   	</div>`;
