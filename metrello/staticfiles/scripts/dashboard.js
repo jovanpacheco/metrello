@@ -172,15 +172,20 @@ function main(Req, res) {
 			          <div class="d-flex justify-content-between">
 			          <i>${ 'title' }</i>
 			          <span class="badge badge-${'color'} badge-pill">${ 'get_priority' }</span>
-			          <span class="badge badge-secondary badge-pill"><i class="fa fa-${'icono'}"></i></span>
+			          <span class="badge badge-secondary badge-pill" title="${'t'}">
+			          	<i class="fa fa-${'icono'}"></i>
+			          </span>
+			          <span data-action-name="delete_item" onclick="borrar_tarea('${ 'uuid' }')" class="badge badge-dark badge-pill badge-delete">
+			          <i class="fa fa-recycle"></i>
+			          </span>		          
 			          </div>
-			          <div>${'note'}</div>			         
+			          <div>${'note'}</div>    
 			        </li>`;
 
 			        $("#lista_de_tareas").html("");
 			        $("#item_label_tareas").text("");
 					for (var i = 0; i < data_tareas.length; i++) {
-						var tipo_prioridad, icono ='';
+						var tipo_prioridad, icono, t ='';
 
 						if (data_tareas[i].priority == 1)
 						{
@@ -202,15 +207,19 @@ function main(Req, res) {
 						if (data_tareas[i].completed)
 						{
 							icono = 'chevron-up';
+							t = 'Terminado';
 						}
 						else
 						{
 							icono = 'chevron-down';
+							t = 'Debe terminar esto'
 						}
 
 						$("#item_label_tareas").text(data_tareas[i].uuid_list);
+
 						$("#lista_de_tareas").append(tarea_template(
-						extend(data_tareas[i], {color:tipo_prioridad,icono:icono})));
+						extend(data_tareas[i],{color:tipo_prioridad,icono:icono,t:t})
+						));
 
 						//HDD.setJ(data_tareas[i].uuid,data_tareas[i]);
 					}
@@ -220,8 +229,6 @@ function main(Req, res) {
 
 	        },//fin complete traer tareas
 	    });
-
-
 	});
 
 
@@ -264,6 +271,8 @@ function main(Req, res) {
 	        }
 	      });
 	});
+
+
 };
 
 
@@ -302,3 +311,27 @@ usuario_conectado(function(){
 });
 
 })( window );
+
+function borrar_tarea(uuid)
+{
+    _confirma(
+    "¿Estas seguro de eliminar la tareas?",
+    function(){
+    $.ajax({
+        type: 'DELETE',
+        url:  '/api/v1/item/'+uuid+'/',   
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+        },
+        complete: function (Req, textStatus)
+        {
+        	_exito_redirect('Tareas eliminada','/dashboard/')
+        }
+      });
+
+    },
+    	function(){swal("Cancelado", "", "info");}
+    )
+
+}
+
