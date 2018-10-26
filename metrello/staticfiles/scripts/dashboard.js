@@ -2,15 +2,20 @@
 
 
 function main(Req, res) {
-	var lista_template = templater`<div class="lista col-md-4 col-xs-4 col-sd-4" data-action-id="${ 'uuid' }"> 
+	var lista_template = 
+	templater`<div class="lista col-md-4 col-xs-4 col-sd-4" data-action-id="${ 'uuid' }"> 
 	<button type="button" class="close"  
 	data-action-name="delete_list" aria-label="Close">
 	<span aria-hidden="true">&times;</span>
 	</button>
 	<button type="button" class="close item_plus"
 	data-action-name="add_item" aria-label="Add"> 
-	<span aria-hidden="true">&plus;</span>
-	</button>						
+	<i aria-hidden="true" class="fa fa-plus"></i>
+	</button>	
+	<button type="button" class="close items"
+	data-action-name="items_for_list" aria-label="Tareas"> 
+	<i aria-hidden="true" class="fa fa-align-justify"></i>
+	</button>								
     <p class="titulo" data-action-name="update_list">${ 'name' }</p>
     <p>Prioridad: ${ 'get_priority' }
     <span style="float: right;">Tareas: ${ 'nro_tareas' }</span></p>
@@ -139,6 +144,54 @@ function main(Req, res) {
 	    )
 
 	});
+
+	// modal para todas las tareas de una lista 
+	$('[data-action-name="items_for_list"]').on("click",function(event) {
+
+		var uuid = $(event.target).parent().attr('data-action-id');
+	    $.ajax({
+	        type: 'GET',
+	        url:  '/api/v1/list/'+uuid+'/items ',   
+	        beforeSend: function (xhr) {
+	            xhr.setRequestHeader("Authorization", 'jwt '+ HDD.get('jwt'));
+	        },
+	        complete: function (Rq, textStatus)
+	        {
+				
+				var data_tareas = JSON.parse(Rq.responseText);            	
+				if(Rq.status == 200)
+				{
+					var tarea_template = 
+					templater`<li class="list-group-item justify-content-between align-items-center">
+			          <div class="d-flex justify-content-between">
+			          ${ 'title' }
+			          <span class="badge badge-primary badge-pill">14</span>
+			          <span class="badge badge-primary badge-pill">14</span>
+			          <span class="badge badge-primary badge-pill">14</span>
+			          </div>
+			          <div>fdsfdsfsdfds fsd fdsf ds fdsf dsf gfhghgjhg jh</div>			         
+			        </li>`;
+
+			        $("#lista_de_tareas").html("");
+			        $("#item_label_tareas").text("");
+					for (var i = 0; i < data_tareas.length; i++) {
+						$("#item_label_tareas").text(data_tareas[i].uuid_list);
+						$("#lista_de_tareas").append(tarea_template( data_tareas[i] ));
+						HDD.setJ(data_tareas[i].uuid,data_tareas[i]);
+					}
+					$('#modal_tareas').modal('toggle');
+					return;
+				}
+
+	        },//fin complete traer tareas
+	    });
+
+
+	});
+
+
+
+
 
 	// crear tareas para una lista boton
 	$('[data-action-name="add_item"]').on("click",function(event) {

@@ -17,11 +17,19 @@
 .close{
 	color: red;
 	opacity: .75;
+	padding: 1px !important;
 }
 
 .item_plus{
-	color: blue
+	color: #0000ee;
+	opacity: .65;	
 }
+
+.items{
+	color: #07b446;
+	opacity: .65;	
+}
+
 .hide{
 	display: none;
 }

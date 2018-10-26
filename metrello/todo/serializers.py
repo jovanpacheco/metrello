@@ -39,8 +39,9 @@ class ItemSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('uuid', 'title','priority','uuid_list','due_date','completed','completed_date',
-        'note','active','assigned_to', 'author')
+        fields = ('uuid', 'title', 'priority', 'uuid_list', 'due_date', 'completed',
+                  'completed_date', 'note', 'active', 'assigned_to', 'author',
+                  'get_priority')
 
         extra_kwargs = {
             'list': {'lookup_field': 'uuid'},

@@ -9,10 +9,10 @@ import datetime
 
 
 PRIORITY_CHOICE = (
-    (1,'high'),
-    (2,'medium'),
-    (3,'normal'),
-    (4,'low'),
+    (1,'Alta'),
+    (2,'Media'),
+    (3,'Normal'),
+    (4,'Baja'),
 )
 
 class List(BaseModel):
@@ -34,13 +34,13 @@ class List(BaseModel):
     @property
     def get_priority(self):
         if self.priority == 1:
-            return 'high'
+            return 'Alta'
         elif self.priority == 2:
-            return 'medium'
+            return 'Media'
         elif self.priority == 3:
-            return 'normal'
+            return 'Normal'
         elif self.priority == 4:
-            return 'low'
+            return 'Baja'
 
     def __str__(self):
         return self.name
@@ -87,13 +87,13 @@ class Item(BaseModel):
     @property
     def get_priority(self):
         if self.priority == 1:
-            return 'high'
+            return 'Alta'
         elif self.priority == 2:
-            return 'medium'
+            return 'Media'
         elif self.priority == 3:
-            return 'normal'
+            return 'Normal'
         elif self.priority == 4:
-            return 'low'
+            return 'Baja'
             
     def __str__(self):
         return self.title
